@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Chi Tiết Đơn Hàng";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+@model PagedList.IPagedList<WebBanQuanAo.Models.ChiTietDonHangViewModel>
+@using PagedList.Mvc;
+
+<!-- Các phần khác giữ nguyên -->
+
+<div class="container">
+    <h2>Chi Tiết Đơn Hàng</h2>
+
+    @foreach (var chiTiet in Model)
+    {
+        <div>
+            <p>Mã đơn hàng : @chiTiet.MaDonHang</p>
+            <p>Sản phẩm: @chiTiet.TenSanPham</p>
+            <p>Số lượng: @chiTiet.SoLuong</p>
+            <p>Đơn giá: @chiTiet.DonGia</p>
+            <p>Size : @chiTiet.Size</p>
+            <p>Màu : @chiTiet.Mau</p>
+        </div>
+        <hr />
+    }
+
+</div>

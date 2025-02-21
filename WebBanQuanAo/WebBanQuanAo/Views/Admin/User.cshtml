@@ -1,0 +1,72 @@
+﻿@model PagedList.IPagedList<WebBanQuanAo.Models.NguoiDung>
+@using PagedList
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Danh sách người dùng";
+    Layout = "~/Views/Shared/LayoutAdmin.cshtml";
+}
+
+<div class="container mt-4">
+
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.First().TenDangNhap)</th>
+                <th>@Html.DisplayNameFor(model => model.First().MatKhau)</th>
+                <th>@Html.DisplayNameFor(model => model.First().Email)</th>
+                <th>@Html.DisplayNameFor(model => model.First().DiaChi)</th>
+                <th>@Html.DisplayNameFor(model => model.First().SoDienThoai)</th>
+                <th>@Html.DisplayNameFor(model => model.First().ChucVu)</th>
+                <th>@Html.DisplayNameFor(model => model.First().HoVaTen)</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.TenDangNhap)</td>
+                    <td></td>
+                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                    <td>@Html.DisplayFor(modelItem => item.DiaChi)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SoDienThoai)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ChucVu)</td>
+                    <td>@Html.DisplayFor(modelItem => item.HoVaTen)</td>
+                    <td>
+                        @Html.ActionLink("Sửa", "SuaUser", new { id = item.MaNguoiDung }, new { @class = "btn btn-warning" }) 
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="col-12">
+        <div class="pagination justify-content-center">
+            <ul class="pagination">
+                @if (Model.PageCount > 1)
+                {
+                    <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("User", new { page = 1, size = ViewBag.SelectedSize })">First</a>
+                    </li>
+                    <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("User", new { page = Model.PageNumber - 1, size = ViewBag.SelectedSize })">Previous</a>
+                    </li>
+                    for (int i = 1; i <= Model.PageCount; i++)
+                    {
+                        <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("User", new { page = i, size = ViewBag.SelectedSize })">@i</a>
+                        </li>
+                    }
+                    <li class="page-item @(Model.PageNumber == Model.PageCount ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("User", new { page = Model.PageNumber + 1, size = ViewBag.SelectedSize })">Next</a>
+                    </li>
+                    <li class="page-item @(Model.PageNumber == Model.PageCount ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("User", new { page = Model.PageCount, size = ViewBag.SelectedSize })">Last</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

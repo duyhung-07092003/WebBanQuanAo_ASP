@@ -1,0 +1,56 @@
+﻿@model WebBanQuanAo.Models.DonHang
+
+@{
+    ViewBag.Title = "Chi tiết đơn hàng";
+    Layout = "~/Views/Shared/LayoutAdmin.cshtml";
+}
+
+<h2>Chi tiết đơn hàng</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Tên sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Giá</th>
+            <th>Size</th>
+            <th>Màu</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var chiTiet in ViewBag.ChiTietDonHangs)
+        {
+            <tr>
+                <td>@chiTiet.SanPham.TenSanPham</td>
+                <td>@chiTiet.SoLuong</td>
+                <td>@String.Format("{0:C}", chiTiet.Gia)</td>
+                <td>@chiTiet.Size</td>
+                <td>@chiTiet.Mau</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <h4>Thông tin đơn hàng</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Mã đơn hàng</dt>
+        <dd>@Model.MaDonHang</dd>
+
+        <dt>Ngày đặt hàng</dt>
+        <dd>@Model.NgayDatHang</dd>
+
+        <dt>Tổng tiền</dt>
+        <dd>@String.Format("{0:C}", Model.TongTien)</dd>
+
+        <dt>Địa chỉ giao hàng</dt>
+        <dd>@Model.DiaChiGiaoHang</dd>
+
+        <dt>Trạng thái</dt>
+        <dd>@Model.TrangThai</dd>
+    </dl>
+</div>
+
+<div>
+    @Html.ActionLink("Quay lại danh sách đơn hàng", "DH", null, new { @class = "btn btn-default" })
+</div>

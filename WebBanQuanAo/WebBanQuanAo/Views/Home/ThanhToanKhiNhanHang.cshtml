@@ -1,0 +1,54 @@
+﻿@model IEnumerable<WebBanQuanAo.Models.GioHang>
+
+@{
+    ViewBag.Title = "Thanh Toán Khi Nhận Hàng";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+@if (ViewData["success"] != null)
+{
+    <div class="alert alert-success">
+        @ViewData["success"]
+    </div>
+}
+<div class="container">
+    <h2 class="section-title text-uppercase mb-4"><span class="bg-secondary pr-3">Thông Tin Đơn Hàng</span></h2>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Tên Sản Phẩm</th>
+                <th>Giá</th>
+                <th>Số Lượng</th>
+                <th>Size</th>
+                <th>Màu Sắc</th>
+                <th>Thành Tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var sp in Model)
+            {
+                <tr>
+                    <td>@sp.TenSanPham</td>
+                    <td>@String.Format("{0:C0}", sp.Gia)</td>
+                    <td>@sp.SoLuong</td>
+                    <td>@sp.KichThuoc</td>
+                    <td>@sp.Mau</td>
+                    <td>@String.Format("{0:C0}", sp.ThanhTien)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="row justify-content-end">
+        <div class="col-md-4">
+            <h4 class="text-uppercase">Tổng Tiền: @String.Format("{0:C0}", ViewBag.TongTien+50000)</h4>
+            <!-- Các thông tin khác có thể được thêm vào ở đây -->
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <!-- Các thông tin khác có thể được thêm vào ở đây -->
+        </div>
+    </div>
+</div>

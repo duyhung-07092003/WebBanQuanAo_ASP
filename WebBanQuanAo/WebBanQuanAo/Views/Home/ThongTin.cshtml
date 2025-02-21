@@ -1,0 +1,35 @@
+﻿@model WebBanQuanAo.Models.NguoiDung
+
+@{
+    ViewBag.Title = "Thông Tin Người Dùng";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h2>Thông Tin Người Dùng</h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-4">Tên Đăng Nhập:</dt>
+                <dd class="col-sm-8">@Model.TenDangNhap</dd>
+
+                <dt class="col-sm-4">Email:</dt>
+                <dd class="col-sm-8">@Model.Email</dd>
+
+                <dt class="col-sm-4">Địa Chỉ:</dt>
+                <dd class="col-sm-8">@Model.DiaChi</dd>
+
+                <dt class="col-sm-4">Số Điện Thoại:</dt>
+                <dd class="col-sm-8">@Model.SoDienThoai</dd>
+
+                <dt class="col-sm-4">Chức Vụ:</dt>
+                <dd class="col-sm-8">@Model.ChucVu</dd>
+
+                <dt class="col-sm-4">Họ Và Tên:</dt>
+                <dd class="col-sm-8">@Model.HoVaTen</dd>
+            </dl>
+        </div>
+    </div>
+</div>

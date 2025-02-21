@@ -1,0 +1,38 @@
+﻿@model WebBanQuanAo.Models.SanPham
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/LayoutAdmin.cshtml";
+}
+
+@using (Html.BeginForm("SuaSP", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.MaSanPham) <!-- Cần giữ giá trị ID để biết sản phẩm cần sửa -->
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.TenSanPham)
+        @Html.TextBoxFor(model => model.TenSanPham, new { @class = "form-control", required = "required" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.MoTa)
+        @Html.TextAreaFor(model => model.MoTa, new { @class = "form-control", required = "required" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Gia)
+        @Html.TextBoxFor(model => model.Gia, new { @class = "form-control", type = "number", required = "required" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.SoLuongTon)
+        @Html.TextBoxFor(model => model.SoLuongTon, new { @class = "form-control", type = "number", required = "required" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.MaDanhMuc)
+        @Html.DropDownListFor(model => model.MaDanhMuc, ViewBag.DanhMucList as SelectList, "Select Category", new { @class = "form-control", required = "required" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.HinhAnh)
+        @Html.TextBoxFor(model => model.HinhAnh, new { @class = "form-control", type = "file", name = "file" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Cập nhật</button>
+}

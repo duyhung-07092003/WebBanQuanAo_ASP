@@ -1,0 +1,88 @@
+﻿@model PagedList.IPagedList<WebBanQuanAo.Models.SanPham>
+@using PagedList
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/LayoutAdmin.cshtml";
+}
+
+<p>
+    @Html.ActionLink("Thêm mới", "ThemSP", "Admin", new { @class = "btn btn-primary" })
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.First().TenSanPham)</th>
+            <th>@Html.DisplayNameFor(model => model.First().MoTa)</th>
+            <th>@Html.DisplayNameFor(model => model.First().Gia)</th>
+            <th>@Html.DisplayNameFor(model => model.First().SoLuongTon)</th>
+            <th>@Html.DisplayNameFor(model => model.First().MaDanhMuc)</th>
+            <th>@Html.DisplayNameFor(model => model.First().HinhAnh)</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.TenSanPham)</td>
+                <td>@Html.Raw(TruncateText(item.MoTa, 50))</td>
+                <td>@String.Format("{0:C}", item.Gia)</td>
+                <td>@Html.DisplayFor(modelItem => item.SoLuongTon)</td>
+                <td>@Html.DisplayFor(modelItem => item.MaDanhMuc)</td>
+                <td>@Html.DisplayFor(modelItem => item.HinhAnh)</td>
+                <td>
+                    @Html.ActionLink("Sửa", "SuaSP", new { id = item.MaSanPham }, new { @class = "btn btn-warning" }) |
+                    @Html.ActionLink("Xóa", "DeleteSP", new { id = item.MaSanPham }, new { @class = "btn btn-danger", onclick = "return confirmDelete();" })
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="col-12">
+    <div class="pagination justify-content-center">
+        <ul class="pagination">
+            @if (Model.PageCount > 1)
+            {
+                <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = 1, size = ViewBag.SelectedSize })">First</a>
+                </li>
+                <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber - 1, size = ViewBag.SelectedSize })">Previous</a>
+                </li>
+                for (int i = 1; i <= Model.PageCount; i++)
+                {
+                    <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { page = i, size = ViewBag.SelectedSize })">@i</a>
+                    </li>
+                }
+                <li class="page-item @(Model.PageNumber == Model.PageCount ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber + 1, size = ViewBag.SelectedSize })">Next</a>
+                </li>
+                <li class="page-item @(Model.PageNumber == Model.PageCount ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = Model.PageCount, size = ViewBag.SelectedSize })">Last</a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+@* Hàm hỗ trợ để cắt đoạn văn bản *@
+@functions {
+    public string TruncateText(string input, int length)
+    {
+        if (input.Length <= length)
+        {
+            return input;
+        }
+        else
+        {
+            return input.Substring(0, length) + "...";
+        }
+    }
+}
+<script>
+    function confirmDelete() {
+        return confirm("Bạn có chắc chắn muốn xóa?");
+    }
+</script>

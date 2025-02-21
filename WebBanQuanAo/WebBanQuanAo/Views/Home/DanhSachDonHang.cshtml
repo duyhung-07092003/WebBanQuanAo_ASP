@@ -1,0 +1,75 @@
+﻿
+
+@{
+    ViewBag.Title = "Danh Sách Đơn Hàng";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+@using PagedList
+@using PagedList.Mvc;
+@model IPagedList<WebBanQuanAo.Models.DonHang>
+<div class="container">
+    <h2>Danh Sách Đơn Hàng</h2>
+
+    @if (Model != null && Model.Count > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Mã Đơn Hàng</th>
+                    <th scope="col">Ngày Đặt Hàng</th>
+                    <th scope="col">Tổng Tiền</th>
+                    <th scope="col">Địa chỉ giao hàng</th>
+                    <th scope="col">Hình thức thanh toán</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var donHang in Model)
+                {
+                    <tr>
+                        <td>@donHang.MaDonHang</td>
+                        <td>     @(donHang.NgayDatHang != null ? donHang.NgayDatHang.Value.ToString("dd/MM/yyyy") : "")</td>
+                        <td>@String.Format("{0:C0}", donHang.TongTien)</td>
+                        <td>@donHang.DiaChiGiaoHang</td>
+                        <td>@donHang.TrangThai</td>
+                        <td>
+                            <a href="@Url.Action("ChiTietDonHang", "Home", new { maDonHang = donHang.MaDonHang })">Xem Chi Tiết</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Không có đơn hàng nào.</p>
+    }
+</div>
+
+<div class="col-12">
+    <div class="pagination justify-content-center">
+        <ul class="pagination">
+            @if (Model.PageCount > 1)
+            {
+                <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("DanhSachDonHang", new { page = 1, size = ViewBag.SelectedSize })">First</a>
+                </li>
+                <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("DanhSachDonHang", new { page = Model.PageNumber - 1, size = ViewBag.SelectedSize })">Previous</a>
+                </li>
+                for (int i = 1; i <= Model.PageCount; i++)
+                {
+                    <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("DanhSachDonHang", new {page = i, size = ViewBag.SelectedSize })">@i</a>
+                    </li>
+                }
+                <li class="page-item @(Model.PageNumber == Model.PageCount ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("DanhSachDonHang", new { page = Model.PageNumber + 1, size = ViewBag.SelectedSize })">Next</a>
+                </li>
+                <li class="page-item @(Model.PageNumber == Model.PageCount ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("DanhSachDonHang", new { page = Model.PageCount, size = ViewBag.SelectedSize })">Last</a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

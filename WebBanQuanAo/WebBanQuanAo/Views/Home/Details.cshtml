@@ -1,0 +1,236 @@
+﻿@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/Layout.cshtml";
+
+}
+@using System.Globalization;
+@functions {
+    public string ShortenDescription(string description, int wordLimit)
+    {
+        if (string.IsNullOrWhiteSpace(description))
+        {
+            return string.Empty;
+        }
+
+        var words = description.Split(' ');
+
+        if (words.Length <= wordLimit)
+        {
+            return description;
+        }
+
+        var shortenedWords = words.Take(wordLimit);
+        return string.Join(" ", shortenedWords) + "...";
+    }
+}
+@{
+    // Kiểm tra xem có thông báo từ TempData không
+    if (TempData["Message"] != null)
+    {
+        <script>
+            // Sử dụng JavaScript để hiển thị thông báo
+            alert('@TempData["Message"]');
+        </script>
+    }
+}
+@using WebBanQuanAo.Models
+@model SanPham
+@if (ViewData["success"] != null)
+{
+    <div class="alert alert-success">
+        @ViewData["success"]
+    </div>
+}
+<div class="container-fluid pb-5">
+    <div class="row px-xl-5">
+        <div class="col-lg-5 mb-30">
+            <div id="product-carousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner bg-light">
+                    <div class="carousel-item active">
+                        <img class="w-100 h-100" src="~/img/@Model.HinhAnh" alt="Image">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7 h-auto mb-30">
+            <div class="h-100 bg-light p-30">
+                <h3>@Model.TenSanPham</h3>
+                @{
+                    decimal gia = 0;
+                    if (@Model.Gia != null)
+                    {
+                        gia = (decimal)@Model.Gia;
+                    }
+                }
+                <h6 class="text-muted ml-2"> @gia.ToString("C0", new CultureInfo("vi-VN"))</h6>
+                <p class="mb-4">
+                    @ShortenDescription(Model.MoTa, 20)
+                </p>
+                <div class="d-flex mb-3">
+                    <strong class="text-dark mr-3">Sizes:</strong>
+                    <form>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="size-1" name="size" value="M">
+                            <label class="custom-control-label" for="size-1">M</label>
+
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="size-2" name="size" value="S">
+                            <label class="custom-control-label" for="size-2">S</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+
+                            <input type="radio" class="custom-control-input" id="size-3" name="size" value="L">
+                            <label class="custom-control-label" for="size-3">L</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="size-4" name="size" value="XL">
+                            <label class="custom-control-label" for="size-4">XL</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="d-flex mb-4">
+                    <strong class="text-dark mr-3">Colors:</strong>
+                    <form>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="color-1" name="color" value="Đen">
+                            <label class="custom-control-label" for="color-1">Đen</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="color-2" name="color" value="Trắng">
+                            <label class="custom-control-label" for="color-2">Trắng</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="color-3" name="color" value="Xám">
+                            <label class="custom-control-label" for="color-3">Xám</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="color-4" name="color" value="Ghi">
+                            <label class="custom-control-label" for="color-4">Ghi</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="color-5" name="color" value="Xanh dương">
+                            <label class="custom-control-label" for="color-5">Xanh dương</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="d-flex mb-4">
+                    <strong class="text-dark mr-3">Số lượng còn lại trong kho: @Model.SoLuongTon</strong>
+                </div>
+                    <div class="d-flex align-items-center mb-4 pt-2">
+                        <div class="input-group quantity mr-3" style="width: 130px;">
+                            <div class="input-group-btn">
+                                <button class="btn btn-primary btn-minus">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                            <input type="text" class="form-control bg-secondary border-0 text-center" value="1" name="quantity">
+                            <div class="input-group-btn">
+                                <button class="btn btn-primary btn-plus">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <input type="hidden" id="productIdInput" name="productId" value="@Model.MaSanPham" />
+
+                        @if (Session["TaiKhoan"] == null)
+                        {
+                            <a class="btn btn-primary px-3" href="@Url.Action("Login","Home")">
+                                Thêm vào giỏ hàng
+                            </a>
+
+                        }
+                        else
+                        {
+                            <a class="btn btn-primary px-3" id="addToCartBtn" href="#">
+                                Thêm vào giỏ hàng
+                            </a>
+                        }
+
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="row px-xl-5">
+        <div class="col">
+            <div class="bg-light p-30">
+                <div class="nav nav-tabs mb-4">
+                    <a class="nav-item nav-link text-dark active" data-toggle="tab" href="#tab-pane-1">Mô tả chi tiết</a>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="tab-pane-1">
+                        <p>@Model.MoTa</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    <h2 class="section-title text-uppercase mb-4"><span class="bg-secondary pr-3">Sản phẩm cùng đồng giá</span></h2>
+    <div class="row">
+        @foreach (var sp in ViewBag.list)
+        {
+            <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                <div class="product-item bg-light mb-4">
+                    <div class="product-img position-relative overflow-hidden" style="width: 300px; height: 200px;">
+                        <img class="img-fluid w-100" src="~/img/@sp.HinhAnh" alt="">
+                        <div class="product-action">
+                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
+                            <a class="btn btn-outline-dark btn-square" href="~/Home/Details"><i class="fa fa-search"></i></a>
+                        </div>
+                    </div>
+                    <div class="text-center py-4">
+                        <a class="h6 text-decoration-none text-truncate" href="">@sp.TenSanPham</a>
+                        <div class="d-flex align-items-center justify-content-center mt-2">
+                            @{
+                                gia = 0;
+                                if (sp.Gia != null)
+                                {
+                                    gia = (decimal)sp.Gia;
+                                }
+                            }
+                            <h6 class="text-muted ml-2"> @gia.ToString("C0", new CultureInfo("vi-VN"))</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+$(document).ready(function () {
+    $(".btn-plus").on("click", function () {
+        var inputQuantity = $(this).closest(".quantity").find("input[name='quantity']");
+        var currentValue = parseInt(inputQuantity.val(), 10);
+        inputQuantity.val(currentValue + 1);
+    });
+
+    $(".btn-minus").on("click", function () {
+        var inputQuantity = $(this).closest(".quantity").find("input[name='quantity']");
+        var currentValue = parseInt(inputQuantity.val(), 10);
+        if (currentValue > 1) {
+            inputQuantity.val(currentValue - 1);
+        }
+    });
+
+    $("#addToCartBtn").on("click", function () {
+        var productId = $("#productIdInput").val();
+        var size = $("input[name='size']:checked").val();
+        var color = $("input[name='color']:checked").val();
+        var quantity = $("input[name='quantity']").val();
+
+        // Kiểm tra xem người dùng đã chọn size, màu và số lượng chưa
+        if (!size || !color || !quantity) {
+            alert("Vui lòng chọn size, màu và số lượng.");
+            return;
+        }
+
+        // Chuyển hướng đến hành động AddToCart với các giá trị đã chọn
+        window.location.href = "@Url.Action("AddToCart", "Home")" + "?productId=" + productId + "&size=" + size + "&color=" + color + "&quantity=" + quantity;
+    });
+});
+</script>

@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>@ViewBag.Title - Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 56px; /* Height of navbar */
+            background-color: #f8f9fa; /* Light gray background */
+        }
+
+        .navbar {
+            background-color: #000; /* Black background */
+        }
+
+        .navbar-brand,
+        .navbar-nav .nav-link {
+            color: #ffffff; /* White text */
+        }
+
+        .navbar-toggler-icon {
+            background-color: #ffffff; /* White color for the hamburger icon */
+        }
+    </style>
+    <!-- Các tệp CSS tùy chỉnh của bạn có thể được thêm ở đây -->
+    @RenderSection("styles", required: false)
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Admin Panel</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/Admin/Index">Quản lý sản phẩm</a>
+                    </li>
+                    <li class="nav-item">
+
+                        <a class="nav-link" href="~/Admin/User">Quản lý người dùng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/Admin/DH">Quản lý đơn hàng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/Admin/DM">Quản lý danh mục sản phẩm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/Home/Index">Thoát</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-5">
+        @RenderBody()
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Các tệp script JavaScript tùy chỉnh của bạn có thể được thêm ở đây -->
+    @RenderSection("scripts", required: false)
+</body>
+</html>
